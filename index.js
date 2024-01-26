@@ -4,6 +4,7 @@ const productNameInput=productCreateForm.querySelector('#name');
 const productSurnameInput=productCreateForm.querySelector('#surname');
 const productPhoneInput=productCreateForm.querySelector('#phone');
 const productEmailInput=productCreateForm.querySelector('#email');
+const productIdInput=productCreateForm.querySelector('#id');
 
 
 async function fetchData(value = "") {
@@ -14,6 +15,8 @@ async function fetchData(value = "") {
    return data;
     
   }
+
+console.log(fetchData());
   
 async function fillData(product){
     if(!product){
@@ -25,9 +28,11 @@ datas.forEach(data => {
     }else{
      
             const elem=createElement(product);
+
             productTableBodyElement.append(elem)
-                // Set Item
-localStorage.setItem("lastname", elem);
+            
+ // Set Item
+// localStorage.setItem("lastname", elem);
 // Retrieve
 // productTableBodyElement.innerHTML = localStorage.getItem("lastname");
     }
@@ -37,29 +42,37 @@ localStorage.setItem("lastname", elem);
 
 }
 
-function createElement(product){
-    const productRowElement=document.createElement('tr');
 
+
+
+function createElement(product){
+  
+    const productRowElement=document.createElement('tr');
+    
     productRowElement.innerHTML=`
     <td>${product.name}</td>
     <td>${product.surname}</td>
     <td>${product.phone}</td>
     <td>${product.email}</td>
+    <button id='${product.id}'>Delete</button>
     `
-
+   
     return productRowElement;
+
    
 }
 
 fillData();
 
-
+// console.log(customIndex);
 productCreateForm.addEventListener('submit',(e)=>{
     e.preventDefault();
     let name=productNameInput.value;
     let surname=productSurnameInput.value;
     let phone=productPhoneInput.value;
     let email=productEmailInput.value;
+    let id=productIdInput.value;
+
 
 
     if(!name || !surname || !phone ||!email){
@@ -71,9 +84,18 @@ productCreateForm.addEventListener('submit',(e)=>{
         name,
         surname,
         phone,
-        email
+        email,
+        id
     }
 
     console.log(newProduct);
     fillData(newProduct)
+
+    document.getElementById(`${id}`).addEventListener('click',(e)=>{
+        console.log(e.target);
+        e.target.closest('tr').innerHTML='';
+    });
+   
 })
+
+
